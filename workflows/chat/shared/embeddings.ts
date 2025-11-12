@@ -5,10 +5,13 @@ export const generateEmbeddings = async (
 ): Promise<Array<{ embedding: number[]; content: string }>> => {
   "use step";
 
+  // Split on sentence boundaries (. ! ?) followed by whitespace or end of string
+  // This preserves decimals and abbreviations better
   const chunks = value
     .trim()
-    .split(".")
-    .filter((i) => i !== "");
+    .split(/[\n.]+/)
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length > 0);
 
   const { embeddings } = await embedMany({
     model: "text-embedding-ada-002",

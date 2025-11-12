@@ -17,13 +17,13 @@ const SIMILARITY_THRESHOLD = 0.5;
 const MAX_RESULTS = 4;
 
 const getSimilarGuides = async (
-  userrQueryEmbedded: EmbeddingVector,
+  userQueryEmbedded: EmbeddingVector,
 ): Promise<ReadonlyArray<SimilarGuide>> => {
   "use step";
 
   // Explicitly type the similarity SQL expression
   const similarity: SQL<number> = sql<number>`
-    1 - (${cosineDistance(embeddings.embedding, userrQueryEmbedded)})`;
+    1 - (${cosineDistance(embeddings.embedding, userQueryEmbedded)})`;
 
   const similarGuides = await db
     .select({
@@ -53,19 +53,16 @@ export const findRelevant = async (
     throw new Error("User query cannot be empty");
   }
 
-  const userrQueryEmbedded = await generateEmbedding(userQuery);
+  const userQueryEmbedded = await generateEmbedding(userQuery);
 
   // validate embedding has expected dimensions (1536 based on the schema)
-  if (
-    !Array.isArray(userrQueryEmbedded) ||
-    userrQueryEmbedded.length !== 1536
-  ) {
+  if (!Array.isArray(userQueryEmbedded) || userQueryEmbedded.length !== 1536) {
     throw new Error(
-      `Invalid embedding dimensions: expected 1536, got ${userrQueryEmbedded.length}`,
+      `Invalid embedding dimensions: expected 1536, got ${userQueryEmbedded.length}`,
     );
   }
 
-  const similarGuides = await getSimilarGuides(userrQueryEmbedded);
+  const similarGuides = await getSimilarGuides(userQueryEmbedded);
 
   return similarGuides;
 };
