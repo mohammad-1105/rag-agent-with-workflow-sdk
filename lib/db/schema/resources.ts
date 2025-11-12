@@ -24,4 +24,4 @@ export const insertResourceSchema = createSelectSchema(resources)
   });
 
 // Type of Resources <used to type API request params and within Components>
-export type Resource = z.infer<typeof insertResourceSchema>;
+export type NewResourceParams = z.infer<typeof insertResourceSchema>;

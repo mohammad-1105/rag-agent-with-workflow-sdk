@@ -17,7 +17,11 @@
     "db:check": "drizzle-kit check"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.65",
+    "@ai-sdk/react": "^2.0.92",
     "@next/env": "^16.0.1",
+    "@workflow/ai": "^4.0.1-beta.13",
+    "ai": "^5.0.92",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.7",
